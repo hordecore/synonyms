@@ -11,8 +11,6 @@ url = 'https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=' + \
 
 data = json.loads(urllib2.urlopen(url + word).read())
 
-for item in data['def'][0]['tr']:
-    if not item.get('syn'):
-        continue
+for item in filter(lambda x: x.get('syn'), data['def'][0]['tr']):
     for syn in item.get('syn'):
         print syn['text'].encode('utf-8')
