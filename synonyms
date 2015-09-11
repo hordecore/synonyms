@@ -1,0 +1,18 @@
+#!/usr/bin/python
+#coding: utf-8
+
+import json, urllib2, sys
+
+word = sys.argv[1]
+api_key = 'put here your api key from https://tech.yandex.ru/keys/get/?service=dict'
+
+url = 'https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=' + \
+    api_key + '&lang=ru-ru&text='
+
+data = json.loads(urllib2.urlopen(url + word).read())
+
+for item in data['def'][0]['tr']:
+    if not item.get('syn'):
+        continue
+    for syn in item.get('syn'):
+        print syn['text'].encode('utf-8')
